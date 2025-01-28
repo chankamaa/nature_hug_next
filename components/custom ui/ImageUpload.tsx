@@ -14,6 +14,7 @@ interface ImageUploadProps {
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, onRemove, value }) => {
 
     const onUpload = ((result: any) => {
+        console.log(result);
 
         onChange(result.info.secure_url);
     });
@@ -22,19 +23,20 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, onRemove, value }) 
             <div className='mb-10 flex flex-wrap items-center gap-4'>
 
                 {value.map((url) => (
-                    <div className='relative w-[200px] h-[200px]'>
+                    <div key={url} className='relative w-[200px] h-[200px]'>
                         <div className='absolute top-0 ring-0 z-10'> 
                             <Button onClick={()=> onRemove(url)} size="sm" className='bg-red-1 text-white'>
                                 <Trash className='h-4 w-4'/>
                             </Button>
                         </div>
-                        <Image src={url} alt='collection' className='object-cover rounded-lg' fill />
+                        <Image src={url} alt="collection" className="object-cover rounded-lg" fill sizes="(max-width: 768px) 100vw, 200px" />
+
                     </div>
                 ))}
 
 
             </div>
-            <CldUploadWidget uploadPreset="nattest" onSuccess={onUpload}>
+            <CldUploadWidget uploadPreset="nattest" options={{ multiple: true}} onSuccess={onUpload}>
                 {({ open }) => {
                     return (
                         <Button onClick={() => open()} className='bg-grey-1 text-white'>
