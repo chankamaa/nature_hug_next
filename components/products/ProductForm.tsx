@@ -70,7 +70,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: initialData ? initialData : {
+        defaultValues: initialData ? {
+            ...initialData,
+            collections: initialData.collections.map(collection => collection._id) // Assuming each collection has an _id property
+        } : {
             title: "",
             description: "",
             media: [],
@@ -94,6 +97,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setLoading(true);
+            console.log("📌 Form Data Before Submission:", values); // ✅ Debugging log
             const url = initialData ? `/api/products/${initialData._id}` : "/api/products";
             
             const res = await fetch(url, {
@@ -164,6 +168,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         <FormItem>
             <FormLabel>Images</FormLabel>
             <FormControl>
+                <div>
                 <ImageUpload
                     value={Array.isArray(field.value) ? field.value : []} 
                     onChange={(newUrls) => {
@@ -190,6 +195,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     
                     
                 />
+                </div>
             </FormControl>
             <FormMessage />
         </FormItem>
@@ -256,21 +262,22 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                             )}
                         />
                         <FormField
-                            control={form.control}
-                            name="collections"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Collections</FormLabel>
-                                    <FormControl>
-                                        <MultiSelect placeholder="Collections" collections={collections} value={field.value}
-                                            onChange={(_id) => field.onChange([...field.value, _id])}
-                                            onRemove={(idToRemove) => field.onChange([...field.value.filter((collectionId) => collectionId !== idToRemove),])}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className=" text-red-1" />
-                                </FormItem>
-                            )}
-                        />
+    control={form.control}
+    name="collections"
+    render={({ field }) => (
+        <FormItem>
+            <FormLabel>Collections</FormLabel>
+            <FormControl>
+                <MultiSelect placeholder="Collections" collections={collections} value={field.value || []}
+                    onChange={(_id) => field.onChange([...field.value, _id])}
+                    onRemove={(idToRemove) => field.onChange(field.value.filter((collectionId) => collectionId !== idToRemove))}
+                />
+            </FormControl>
+            <FormMessage className=" text-red-1" />
+        </FormItem>
+    )}
+/>
+
                         <FormField
                             control={form.control}
                             name="colors"

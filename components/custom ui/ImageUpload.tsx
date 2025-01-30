@@ -63,7 +63,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value = [], onChange, onRemov
                 options={{ multiple: true, maxFiles: 10 }}
             >
                 {({ open }) => (
-                    <Button onClick={() => open()} className='bg-blue-500 text-white flex items-center'>
+                    <Button type='button' onClick={() => open()} className='bg-blue-500 text-white flex items-center'>
                         <Plus className='h-5 w-5 mr-2' />
                         Upload Image
                     </Button>
