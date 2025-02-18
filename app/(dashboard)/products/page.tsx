@@ -1,3 +1,4 @@
+
 "use client"
 
 import { DataTable } from "@/components/custom ui/DataTable"
@@ -9,16 +10,20 @@ import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
+
 const Products = () => {
   const router = useRouter();
 
+
   const [loading, setLoading] = useState(true)
   const [products, setProducts] = useState<ProductType[]>([])
+
 
   const getProducts = async () => {
     try {
       const res = await fetch("/api/products", {
         method: "GET",
+
       })
 
       const data = await res.json()
@@ -53,3 +58,4 @@ const Products = () => {
 }
 
 export default Products
+

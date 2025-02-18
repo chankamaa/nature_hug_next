@@ -25,6 +25,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value = [], onChange, onRemov
         }
     };
 
+
     return (
         <div>
             <div className='mb-10 flex flex-wrap items-center gap-4'>
@@ -37,37 +38,31 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value = [], onChange, onRemov
                 </Button>
             </div>
 
-            {/* ✅ Fix: Ensure Image has a valid URL */}
-            {url ? (
-                <Image
-                    src={url} 
-                    alt={`Uploaded Image ${index}`}
-                    className='object-cover rounded-lg'
-                    width={200}  
-                    height={200} 
-                />
-            ) : (
-                <p className="text-gray-500">Image not found</p>
-            )}
-        </div>
-    ))
-) : (
-    <p className="text-gray-500">No images uploaded yet</p>
-)}
+
+                {value.map((url) => (
+                    <div key={url} className='relative w-[200px] h-[200px]'>
+                        <div className='absolute top-0 ring-0 z-10'> 
+                            <Button onClick={()=> onRemove(url)} size="sm" className='bg-red-1 text-white'>
+                                <Trash className='h-4 w-4'/>
+                            </Button>
+                        </div>
+                        <Image src={url} alt="collection" className="object-cover rounded-lg" fill sizes="(max-width: 768px) 100vw, 200px" />
+
+                    </div>
+                ))}
+
 
             </div>
+            <CldUploadWidget uploadPreset="nattest" options={{ multiple: true}} onSuccess={onUpload}>
+                {({ open }) => {
+                    return (
+                        <Button onClick={() => open()} className='bg-grey-1 text-white'>
+                            <Plus className=' h-4 w-4 mr-2' />
+                            Upload Image
+                        </Button>
+                    );
+                }}
 
-            <CldUploadWidget
-                uploadPreset="nattest"
-                onSuccess={onUpload}
-                options={{ multiple: true, maxFiles: 10 }}
-            >
-                {({ open }) => (
-                    <Button type='button' onClick={() => open()} className='bg-blue-500 text-white flex items-center'>
-                        <Plus className='h-5 w-5 mr-2' />
-                        Upload Image
-                    </Button>
-                )}
             </CldUploadWidget>
         </div>
     );

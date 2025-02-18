@@ -5,7 +5,9 @@ const ProductSchema = new mongoose.Schema({
     description: String,
     media: [String],
     category: String,
+
     collections: [{ type: mongoose.Schema.Types.ObjectId, ref: "Collection" }], // ✅ Reference Collection
+
     tags: [String],
     sizes: [String],
     colors: [String],

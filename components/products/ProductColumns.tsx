@@ -1,3 +1,4 @@
+
 "use client"
 
 
@@ -38,3 +39,4 @@ export const columns: ColumnDef<ProductType>[] = [
       cell:({ row }) => <Delete item="product" id={row.original._id}/>
     },
   ]
+

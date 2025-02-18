@@ -35,14 +35,17 @@ const MultiSelect: React.FC<MultiSelectProps> = ({ placeholder, collections, val
 
     }
     else {
+
         selected = value.map((id) => collections.find((collection) => collection._id === id)) as CollectionType[]
     }
 
     const selectables = collections.filter((collection) => !selected.includes(collection))
 
+
     return (
         <Command className=' overflow-visible bg-white'>
             <div className=' flex gap-1 flex-wrap border rounded-md'>
+
                     {selected.map((collection) => (
                         <Badge key={collection._id}>
                             {collection.title}
@@ -52,6 +55,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({ placeholder, collections, val
                         </Badge>
                     ))}
                 
+
                 <CommandInput placeholder={placeholder} value={inputValue} onValueChange={setInputValue}
                     onBlur={() => setOpen(false)} onFocus={() => setOpen(true)}
                 />
