@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 import { connectToDB } from "@/lib/mongoDB";
 import Product from "@/lib/models/Product";
-import Collection from "@/lib/models/Collection";
+
 
 import Collection from "@/lib/models/Collection";
 
@@ -83,21 +83,7 @@ export const GET = async (req: NextRequest) => {
     }
 
 }
-export const GET = async (req: NextRequest) => {
-    try {
-        await connectToDB();
 
-        const products = await Product.find()
-            .sort({ createdAt: "desc" })
-            .populate({ path: "collection", model: "Collection" }); // ✅ Use lowercase `collection`
-
-        return NextResponse.json(products, { status: 200 });
-
-    } catch (err) {
-        console.log("[products_GET]", err);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-    }
-};
 
   
 
